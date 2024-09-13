@@ -51,3 +51,7 @@ tasks.register('updateGitHooks', Copy) {
     fileMode 0775
 }
 compileJava.dependsOn updateGitHooks
+
+jar {
+    enabled = false
+}
