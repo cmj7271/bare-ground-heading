@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bare-ground
+    username: cmjcm
+    password: 1423
+  jpa:
+    properties:
+      hibernate:
+        create_empty_composites:
+          enabled: true
+    show-sql: true
