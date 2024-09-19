@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("api/articles")
 public class articleController {
   private final articleService articleService;
 
@@ -15,7 +16,7 @@ public class articleController {
     this.articleService = articleService;
   }
 
-  @PostMapping("/api/articles")
+  @PostMapping("")
   public ResponseEntity<ArticleDomain> createArticle(@RequestBody ArticleDTO Contents) {
     ArticleDomain article = new ArticleDomain();
     article.setTitle(Contents.getTitle());
@@ -28,19 +29,19 @@ public class articleController {
     return ResponseEntity.ok().body(article);
   }
 
-  @GetMapping("/api/articles/{id}")
+  @GetMapping("{id}")
   public ResponseEntity<ArticleDomain> getArticle(@PathVariable("id") Long id) {
     ArticleDomain article = articleService.getArticle(id);
     return ResponseEntity.ok().body(article);
   }
 
-  @GetMapping("api/articles")
+  @GetMapping("")
   public ResponseEntity<List<ArticleDomain>> getAllArticles() {
     List<ArticleDomain> articles = articleService.getAllArticles();
     return ResponseEntity.ok().body(articles);
   }
 
-  @PatchMapping("api/articles/{id}")
+  @PatchMapping("{id}")
   public ResponseEntity<ArticleDomain> updateArticle(
       @PathVariable("id") Long id, @RequestBody ArticleDTO Contents) {
     ArticleDomain article =
@@ -56,7 +57,7 @@ public class articleController {
     return ResponseEntity.ok().body(article);
   }
 
-  @DeleteMapping("api/articles/{id}")
+  @DeleteMapping("{id}")
   public ResponseEntity<ArticleDomain> deleteArticle(@PathVariable("id") Long id) {
     ArticleDomain article = articleService.getArticle(id);
     articleService.deleteArticle(id);
