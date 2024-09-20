@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/articles")
-public class articleController {
-  private final articleService articleService;
+public class ArticleController {
+  private final ArticleService articleService;
 
   @Autowired
-  public articleController(articleService articleService) {
+  public ArticleController(ArticleService articleService) {
     this.articleService = articleService;
   }
 

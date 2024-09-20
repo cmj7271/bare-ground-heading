@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class articleJPARepository {
+public class ArticleJPARepository {
   private EntityManager em;
 
-  public articleJPARepository(EntityManager em) {
+  public ArticleJPARepository(EntityManager em) {
     this.em = em;
   }
 

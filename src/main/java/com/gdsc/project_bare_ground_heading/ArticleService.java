@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class articleService {
-  private final articleJPARepository articleRepository;
+public class ArticleService {
+  private final ArticleJPARepository articleRepository;
 
   @Autowired
-  public articleService(articleJPARepository articleRepository) {
+  public ArticleService(ArticleJPARepository articleRepository) {
     this.articleRepository = articleRepository;
   }
 
