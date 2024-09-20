@@ -1,7 +1,8 @@
 package com.gdsc.project_bare_ground_heading;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,38 +15,69 @@ public class ArticleService {
     this.articleRepository = articleRepository;
   }
 
-  public ArticleDomain createArticle(ArticleDomain article) {
+  public ArticleDTO createArticle(String title, String content) {
+    ArticleDomain article =
+        ArticleDomain.builder()
+            .title(title)
+            .contents(content)
+            .createdAt(LocalDateTime.now())
+            .build();
     articleRepository.save(article);
-    return article;
+    return new ArticleDTO(
+        article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
-  public ArticleDomain getArticle(Long id) {
-    return articleRepository.findById(id).orElse(null);
+  public ArticleDTO getArticle(Long id) {
+    ArticleDomain article =
+        articleRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Article not found"));
+    return new ArticleDTO(
+        article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
-  public List<ArticleDomain> getAllArticles() {
-    return articleRepository.findAll();
+  public List<ArticleDTO> getAllArticles() {
+    List<ArticleDomain> articles = articleRepository.findAll();
+    List<ArticleDTO> articleDTOs = new ArrayList<>();
+    for (ArticleDomain article : articles) {
+      articleDTOs.add(
+          new ArticleDTO(
+              article.getTitle(),
+              article.getContents(),
+              article.getCreatedAt(),
+              article.getUpdatedAt()));
+    }
+    return articleDTOs;
   }
 
-  public Optional<ArticleDomain> changeContent(long id, String Content) {
+  public ArticleDTO changeContent(long id, String Content) {
     ArticleDomain article =
         articleRepository.findById(id).orElseThrow(() -> new NullPointerException("No ID"));
-    article.setContents(Content);
+    article.updateArticleContents(Content);
     articleRepository.save(article);
-    return Optional.of(article);
+    return new ArticleDTO(
+        article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
-  public Optional<ArticleDomain> changeTitle(long id, String title) {
+  public ArticleDTO changeTitle(long id, String title) {
     ArticleDomain article =
         articleRepository.findById(id).orElseThrow(() -> new NullPointerException("No ID"));
-    article.setTitle(title);
+    article.updateArticleTitle(title);
     articleRepository.save(article);
-    return Optional.of(article);
+    return new ArticleDTO(
+        title, article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
-  public Optional<ArticleDomain> deleteArticle(long id) {
-    ArticleDomain article = getArticle(id);
+  public ArticleDomain deleteArticle(long id) {
+    ArticleDTO data = getArticle(id);
+    ArticleDomain article =
+        ArticleDomain.builder()
+            .title(data.title())
+            .contents(data.content())
+            .createdAt(data.createdAt())
+            .updatedAt(LocalDateTime.now())
+            .build();
     articleRepository.delete(article);
-    return Optional.of(article);
+    return article;
   }
 }
