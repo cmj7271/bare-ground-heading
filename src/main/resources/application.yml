@@ -13,3 +13,8 @@ spring:
         create_empty_composites:
           enabled: true
     show-sql: true
+
+# swagger
+springdoc:
+  swagger-ui:
+    path: swagger-ui

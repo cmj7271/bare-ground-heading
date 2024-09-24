@@ -3,18 +3,18 @@ package com.gdsc.project_bare_ground_heading;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ArticleService {
   private final ArticleJPARepository articleRepository;
 
-  @Autowired
   public ArticleService(ArticleJPARepository articleRepository) {
     this.articleRepository = articleRepository;
   }
 
+  @Transactional
   public ArticleDTO createArticle(String title, String content) {
     ArticleDomain article =
         ArticleDomain.builder()
@@ -27,6 +27,7 @@ public class ArticleService {
         article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
+  @Transactional(readOnly = true)
   public ArticleDTO getArticle(Long id) {
     ArticleDomain article =
         articleRepository
@@ -36,6 +37,7 @@ public class ArticleService {
         article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
+  @Transactional(readOnly = true)
   public List<ArticleDTO> getAllArticles() {
     List<ArticleDomain> articles = articleRepository.findAll();
     List<ArticleDTO> articleDTOs = new ArrayList<>();
@@ -50,6 +52,7 @@ public class ArticleService {
     return articleDTOs;
   }
 
+  @Transactional
   public ArticleDTO changeContent(long id, String Content) {
     ArticleDomain article =
         articleRepository.findById(id).orElseThrow(() -> new NullPointerException("No ID"));
@@ -59,6 +62,7 @@ public class ArticleService {
         article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
+  @Transactional
   public ArticleDTO changeTitle(long id, String title) {
     ArticleDomain article =
         articleRepository.findById(id).orElseThrow(() -> new NullPointerException("No ID"));
@@ -68,6 +72,7 @@ public class ArticleService {
         title, article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
+  @Transactional
   public ArticleDomain deleteArticle(long id) {
     ArticleDTO data = getArticle(id);
     ArticleDomain article =
