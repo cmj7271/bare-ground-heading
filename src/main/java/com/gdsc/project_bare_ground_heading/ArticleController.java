@@ -34,8 +34,7 @@ public class ArticleController {
   @PatchMapping("{id}")
   public ResponseEntity<ArticleDTO> updateArticle(
       @PathVariable("id") Long id, @RequestBody ArticleDTO Contents) {
-    articleService.changeContent(id, Contents.content());
-    articleService.changeTitle(id, Contents.title());
+    articleService.changeArticle(id, Contents.content(), Contents.title());
 
     ArticleDTO article = articleService.getArticle(id);
     return ResponseEntity.ok().body(article);

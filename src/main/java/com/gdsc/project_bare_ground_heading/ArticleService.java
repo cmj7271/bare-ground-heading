@@ -53,23 +53,14 @@ public class ArticleService {
   }
 
   @Transactional
-  public ArticleDTO changeContent(long id, String Content) {
+  public ArticleDTO changeArticle(long id, String Content, String title) {
     ArticleDomain article =
         articleRepository.findById(id).orElseThrow(() -> new NullPointerException("No ID"));
+    article.updateArticleTitle(title);
     article.updateArticleContents(Content);
     articleRepository.save(article);
     return new ArticleDTO(
         article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
-  }
-
-  @Transactional
-  public ArticleDTO changeTitle(long id, String title) {
-    ArticleDomain article =
-        articleRepository.findById(id).orElseThrow(() -> new NullPointerException("No ID"));
-    article.updateArticleTitle(title);
-    articleRepository.save(article);
-    return new ArticleDTO(
-        title, article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
   }
 
   @Transactional
