@@ -24,7 +24,11 @@ public class ArticleService {
             .build();
     articleRepository.save(article);
     return new ArticleDTO(
-        article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
+        article.getId(),
+        article.getTitle(),
+        article.getContents(),
+        article.getCreatedAt(),
+        article.getUpdatedAt());
   }
 
   @Transactional(readOnly = true)
@@ -34,7 +38,11 @@ public class ArticleService {
             .findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Article not found"));
     return new ArticleDTO(
-        article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
+        article.getId(),
+        article.getTitle(),
+        article.getContents(),
+        article.getCreatedAt(),
+        article.getUpdatedAt());
   }
 
   @Transactional(readOnly = true)
@@ -44,6 +52,7 @@ public class ArticleService {
     for (ArticleDomain article : articles) {
       articleDTOs.add(
           new ArticleDTO(
+              article.getId(),
               article.getTitle(),
               article.getContents(),
               article.getCreatedAt(),
@@ -53,14 +62,22 @@ public class ArticleService {
   }
 
   @Transactional
-  public ArticleDTO changeArticle(long id, String Content, String title) {
+  public ArticleDTO changeArticle(long id, String contents, String title) {
     ArticleDomain article =
         articleRepository.findById(id).orElseThrow(() -> new NullPointerException("No ID"));
-    article.updateArticleTitle(title);
-    article.updateArticleContents(Content);
+    if (title != null) {
+      article.updateArticleTitle(title);
+    }
+    if (contents != null) {
+      article.updateArticleContents(contents);
+    }
     articleRepository.save(article);
     return new ArticleDTO(
-        article.getTitle(), article.getContents(), article.getCreatedAt(), article.getUpdatedAt());
+        article.getId(),
+        article.getTitle(),
+        article.getContents(),
+        article.getCreatedAt(),
+        article.getUpdatedAt());
   }
 
   @Transactional
@@ -68,6 +85,7 @@ public class ArticleService {
     ArticleDTO data = getArticle(id);
     ArticleDomain article =
         ArticleDomain.builder()
+            .id(data.id())
             .title(data.title())
             .contents(data.content())
             .createdAt(data.createdAt())
