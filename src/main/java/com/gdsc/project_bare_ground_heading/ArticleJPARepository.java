@@ -15,7 +15,7 @@ public class ArticleJPARepository {
 
   public ArticleDomain save(ArticleDomain article) {
     em.persist(article);
-    return article;
+    return em.find(ArticleDomain.class, article.getId());
   }
 
   public Optional<ArticleDomain> findById(Long id) {
