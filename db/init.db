@@ -1,0 +1,18 @@
+-- Table: public.articles
+
+-- DROP TABLE IF EXISTS public.articles;
+
+CREATE TABLE IF NOT EXISTS public.articles
+(
+    title character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    contents character varying(512) COLLATE pg_catalog."default" NOT NULL,
+    created_at time with time zone NOT NULL,
+    updated_at time with time zone,
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    CONSTRAINT articles_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.articles
+    OWNER to cmjcm;

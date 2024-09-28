@@ -1,10 +1,11 @@
 server:
   port: 8080
+  address:
 
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/bare-ground
+    url: jdbc:postgresql://db:5432/bare-ground
     username: cmjcm
     password: 1423
   jpa:
@@ -12,7 +13,10 @@ spring:
       hibernate:
         create_empty_composites:
           enabled: true
-    show-sql: true
+        format_sql: true
+      show-sql: true
+    hibernate:
+      ddl-auto: update
 
 # swagger
 springdoc:

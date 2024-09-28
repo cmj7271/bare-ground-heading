@@ -22,13 +22,11 @@ public class ArticleService {
             .contents(content)
             .createdAt(LocalDateTime.now())
             .build();
-    articleRepository.save(article);
+
+    ArticleDomain art = articleRepository.save(article);
+
     return new ArticleDTO(
-        article.getId(),
-        article.getTitle(),
-        article.getContents(),
-        article.getCreatedAt(),
-        article.getUpdatedAt());
+        art.getId(), art.getTitle(), art.getContents(), art.getCreatedAt(), art.getUpdatedAt());
   }
 
   @Transactional(readOnly = true)

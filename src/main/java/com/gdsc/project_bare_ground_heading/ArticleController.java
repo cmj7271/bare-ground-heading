@@ -17,8 +17,8 @@ public class ArticleController {
 
   @PostMapping
   public ResponseEntity<ArticleDTO> createArticle(@RequestBody ArticleDTO contents) {
-    articleService.createArticle(contents.title(), contents.content());
-    return ResponseEntity.ok().body(contents);
+    return ResponseEntity.ok()
+        .body(articleService.createArticle(contents.title(), contents.content()));
   }
 
   @GetMapping("/{id}")
