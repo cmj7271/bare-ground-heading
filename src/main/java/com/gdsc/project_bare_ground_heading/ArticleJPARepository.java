@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ArticleJPARepository {
-  private EntityManager em;
+  private final EntityManager em;
 
   public ArticleJPARepository(EntityManager em) {
     this.em = em;
